@@ -1,42 +1,44 @@
-<!DOCTYPE html>
+п»ї<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-	<title>LB3</title>
+    <meta charset="UTF-8">
+    <title>LB3</title>
 </head>
-<bode>
-<b> Session of the selected client </b>
-<p>
-                <label for="student">Choose a client</label>
-                <select id="student" name="name">
-                    <option value="student1">Іванов Д.</option>
-                    <option value="student2">Корольков І.</option>
-                    <option value="student3">Карманьський Б.</option>
-                    <option value="student4">Воронін Р.</option>
-                </select>
-                <button name="button">Get info</button>
-            </p>
- Network sessions for a specified period of time
- 
-     <form>
- <p>
-  <label>Start time </label>
-  <input type="text">
-  <br>
-  <br>
-  <label>End time</label>
-  <input type="text">
-  </p>
-  <button name="button">Get info</button>
-</form>       
-<br>
-  List of debtors
-  <button name="button">Get info</button>
-            
-            
-            
+    
+<body>
+<?php
+	$link = mysqli_connect("localhost", "root", "","lb_pdo_netstat");
+	if (!$link) {
+	echo "РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј MySQL!";
+	exit;
+	}
 
+	$sql = "SELECT name, id_client FROM `client`";
+	$result_select = mysqli_query($link, $sql);
+	$res = mysqli_fetch_all($result_select, MYSQLI_ASSOC);
+?>
 
+<form action="req1.php" method="post" >
+        <select name="id_client" size="1">
+            <?php foreach($res as[ 'name' => $name, 'id_client' => $id_client]): ?>
+                $select .= <option value ="<?=$id_client?>"><?=$name?></option>
+            <?php endforeach ?>
+	    </select>
+	<p><input  type="submit" name="button1" value="Get info" /></p>
 
+</form>
 
-</bode>
+<form action="req2.php" method="post">
+	<p>Start time: <input type="text" name="Start time" /></p>
+	<p>End time: <input type="text" name="End time" /></p>
+	<p><input  type="submit" name="button2" value="Get info" /></p>
+</form>
+
+    List of debtors
+<form action="req3.php" method="post">
+    <input  type="submit" name="button3" value="Get info" />
+</form>
+
+</body>
+</html>
+
